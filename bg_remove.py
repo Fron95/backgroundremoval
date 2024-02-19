@@ -1,6 +1,6 @@
 import streamlit as st
 from rembg import remove
-from PIL import Image, ImageOps
+from PIL import Image, ImageOps, IMAGERES
 from io import BytesIO
 import base64
 import zipfile
@@ -21,17 +21,23 @@ def convert_image(img):
     return byte_im
 
 # Resize and add a white background
+from PIL import Image, ImageOps
+
+# Resize the entire image without cropping and center it on a white background
 def resize_and_background(image, target_size=TARGET_SIZE, image_size=(350, 250), background_color=(255, 255, 255)):
     # 이미지 배경 제거
     image_no_bg = remove(image)
-    # 이미지 크기 조정 (350x250)
-    image_resized = ImageOps.fit(image_no_bg, image_size, Image.ANTIALIAS)
+    # 이미지 전체 크기 조정 (비율 유지하지 않음)
+    image_resized = image_no_bg.resize(image_size, Image.ANTIALIAS)
     # 흰색 배경 생성 (480x328)
     background = Image.new("RGB", target_size, background_color)
     # 조정된 이미지를 배경의 중앙에 배치
-    background.paste(image_resized, ((target_size[0] - image_size[0]) // 2, (target_size[1] - image_size[1]) // 2), mask=image_resized.split()[3])
+    background.paste(image_resized, ((target_size[0] - image_size[0]) // 2, (target_size[1] - image_size[1]) // 2), mask=image_resized.split()[3] if image_resized.mode == 'RGBA' else None)
     return background
 
+
+
+id = st.text_input()
 
 
 # Process and display each image
