@@ -21,16 +21,20 @@ def convert_image(img):
     return byte_im
 
 # Resize and add a white background
+# Resize and add a white background
 def resize_and_background(image, target_size=TARGET_SIZE, background_color=(255, 255, 255)):
     # 이미지 배경 제거
     image_no_bg = remove(image)
+    # 이미지를 bytes에서 PIL.Image 객체로 변환
+    image_no_bg_pil = Image.open(BytesIO(image_no_bg))
     # 이미지 크기 조정
-    image_resized = ImageOps.fit(Image.open(BytesIO(image_no_bg)), target_size, Image.ANTIALIAS)
+    image_resized = ImageOps.fit(image_no_bg_pil, target_size, Image.ANTIALIAS)
     # 흰색 배경 생성
     background = Image.new("RGB", target_size, background_color)
     # 배경과 조정된 이미지 합치기
     background.paste(image_resized, mask=image_resized.split()[3])  # 3은 알파 채널
     return background
+
 
 # Process and display each image
 def process_images(uploaded_files):
