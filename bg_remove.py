@@ -51,10 +51,7 @@ def process_images(uploaded_files):
         mime="application/zip"
     )
 
-id = st.text_input("Please enter your ID")
-login = st.button("Login")
 
-if id == "jy" and login:
-    uploaded_files = st.sidebar.file_uploader("Upload images", type=["png", "jpg", "jpeg"], accept_multiple_files=True)
-    if uploaded_files:
-        process_images(uploaded_files)
+uploaded_files = st.sidebar.file_uploader("Upload images", type=["png", "jpg", "jpeg"], accept_multiple_files=True)
+if uploaded_files:
+    process_images(uploaded_files)
