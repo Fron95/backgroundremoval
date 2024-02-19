@@ -1,6 +1,6 @@
 import streamlit as st
 from rembg import remove
-from PIL import Image
+from PIL import Image, ImageOps
 from io import BytesIO
 import base64
 import zipfile
@@ -11,6 +11,7 @@ st.write("## Remove background from your images")
 st.sidebar.write("## Upload and download :gear:")
 
 MAX_FILE_SIZE = 5 * 1024 * 1024  # 5MB
+TARGET_SIZE = (800, 600)  # 원하는 이미지 크기, 예: 800x600
 
 # Convert image to bytes for download
 def convert_image(img):
@@ -18,6 +19,18 @@ def convert_image(img):
     img.save(buf, format="PNG")
     byte_im = buf.getvalue()
     return byte_im
+
+# Resize and add a white background
+def resize_and_background(image, target_size=TARGET_SIZE, background_color=(255, 255, 255)):
+    # 이미지 배경 제거
+    image_no_bg = remove(image)
+    # 이미지 크기 조정
+    image_resized = ImageOps.fit(Image.open(BytesIO(image_no_bg)), target_size, Image.ANTIALIAS)
+    # 흰색 배경 생성
+    background = Image.new("RGB", target_size, background_color)
+    # 배경과 조정된 이미지 합치기
+    background.paste(image_resized, mask=image_resized.split()[3])  # 3은 알파 채널
+    return background
 
 # Process and display each image
 def process_images(uploaded_files):
@@ -35,7 +48,7 @@ def process_images(uploaded_files):
                         col1.write("Original Image :camera:")
                         col1.image(image)
 
-                        fixed_image = remove(image)
+                        fixed_image = resize_and_background(image)
                         col2.write("Fixed Image :wrench:")
                         col2.image(fixed_image)
 
