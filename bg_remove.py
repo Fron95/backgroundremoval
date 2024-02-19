@@ -37,7 +37,7 @@ def resize_and_background(image, target_size=TARGET_SIZE, image_size=(350, 250),
 
 
 
-id = st.text_input()
+
 
 
 # Process and display each image
