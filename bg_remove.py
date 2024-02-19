@@ -26,7 +26,7 @@ from PIL import Image, ImageOps
 # Resize the entire image without cropping and center it on a white background
 def resize_and_background(image, target_size=TARGET_SIZE, image_size=(350, 250), background_color=(255, 255, 255)):
     # 이미지 배경 제거
-    image_no_bg = remove(image, alpha_matting=True, alpha_matting_foreground_threshold=240, alpha_matting_background_threshold=15, alpha_matting_erode_structure_size=10)
+    image_no_bg = remove(image)
     # 이미지 전체 크기 조정 (비율 유지하지 않음)
     image_resized = image_no_bg.resize(image_size, Image.ANTIALIAS)
     # 흰색 배경 생성 (480x328)
