@@ -1,6 +1,6 @@
 import streamlit as st
 from rembg import remove
-from PIL import Image, ImageOps, IMAGERES
+from PIL import Image, ImageOps
 from io import BytesIO
 import base64
 import zipfile
