@@ -34,9 +34,9 @@ def fix_image(upload):
     st.sidebar.download_button("Download fixed image", convert_image(fixed), "fixed.png", "image/png")
 
 id = st.text_input("아이디를 입력해주세요")
-pw = st.text_input("비밀번호를 입력해주세요")
+st.button("로그인")
 
-if (id=="jy") & (pw =="jy") :
+if (id=="jy") &  :
     col1, col2 = st.columns(2)
     my_upload = st.sidebar.file_uploader("Upload an image", type=["png", "jpg", "jpeg"])
 
