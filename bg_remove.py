@@ -11,7 +11,7 @@ st.write("## Remove background from your images")
 st.sidebar.write("## Upload and download :gear:")
 
 MAX_FILE_SIZE = 5 * 1024 * 1024  # 5MB
-TARGET_SIZE = (800, 600)  # 원하는 이미지 크기, 예: 800x600
+TARGET_SIZE = (480, 328)  # 원하는 이미지 크기, 예: 800x600
 
 # Convert image to bytes for download
 def convert_image(img):
